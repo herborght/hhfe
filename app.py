@@ -39,7 +39,6 @@ if submit:
     x_coord_bootles, y_coord_bottles, tubes = calculate_placement_bottles(
         nozzle_x_coords, nozzle_y_coords_optimized, length, width
     )
-
     for tube in range(tubes):
         if y_coord_bottles == 0:
             bottle_axis = [x_coord_bootles, x_coord_bootles] + [
@@ -47,19 +46,18 @@ if submit:
             ]
             other_list = (
                 [y_coord_bottles]
-                + [2 for _ in range(len(nozzle_y_coords_optimized))]
+                + [2 for _ in range(2)]
                 + [elm for elm in nozzle_y_coords_optimized]
             )
         else:
+            other_list = [y_coord_bottles, y_coord_bottles] + [
+                nozzle_y_coords_optimized[tube] for _ in range(len(nozzle_x_coords) + 1)
+            ]
             bottle_axis = (
                 [x_coord_bootles]
-                + [2 for _ in range(len(nozzle_x_coords))]
+                + [2 for _ in range(2)]
                 + [elm for elm in nozzle_x_coords]
             )
-            other_list = [y_coord_bottles, y_coord_bottles] + [
-                nozzle_y_coords_optimized[tube]
-                for _ in range(len(nozzle_y_coords_optimized) + 1)
-            ]
 
         ax.plot(
             bottle_axis,
