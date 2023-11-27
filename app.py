@@ -28,7 +28,7 @@ if submit:
         nozzle_x_coords,
         nozzle_y_coords_optimized,
         total_nozzles_optimized,
-    ) = calculate_nozzles(width, length, 3.66, 7.32)
+    ) = calculate_nozzles(length, width, 3.66, 7.32)
 
     # st.write("x-coords", nozzle_x_coords)
     # st.write("y-coords", nozzle_y_coords_optimized)
@@ -37,7 +37,7 @@ if submit:
     fig, ax = plt.subplots()
 
     x_coord_bootles, y_coord_bottles, tubes = calculate_placement_bottles(
-        nozzle_x_coords, nozzle_y_coords_optimized, length, width
+        nozzle_x_coords, nozzle_y_coords_optimized, width, length
     )
     for tube in range(tubes):
         if y_coord_bottles == 0:
@@ -77,11 +77,11 @@ if submit:
         )
     ax.plot(x_coord_bootles, y_coord_bottles, "bo")
 
-    ax.set_xlim(0, length)
-    ax.set_ylim(0, width)
+    ax.set_xlim(0, width)
+    ax.set_ylim(0, length)
     ax.set_title("Optimized Floor Plan with Nozzle Placement")
-    ax.set_xlabel("Length (m)")
-    ax.set_ylabel("Width (m)")
+    ax.set_xlabel("Width (m)")
+    ax.set_ylabel("Length (m)")
     ax.legend()
     ax.grid(True)
 
