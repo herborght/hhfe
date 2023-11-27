@@ -17,7 +17,7 @@ st.title("Optimizing nozzles")
 
 with st.form("dimensions"):
     length = st.number_input("length", value=10)
-    width = st.number_input("width", value=8)
+    width = st.number_input("width", value=16)
     height = st.number_input("height", value=3)
 
     submit = st.form_submit_button("Submit")
