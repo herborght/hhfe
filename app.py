@@ -82,11 +82,10 @@ if submit:
     ax.set_ylabel("Lengde (m)")
     ax.legend()
 
-    st.write("Totalt antall dyser: ", str(total_nozzles_optimized), "m")
+    st.write("Totalt antall dyser: ", str(total_nozzles_optimized))
     st.write(
         "Antall flasker som trengs: ",
         str(int(np.ceil(calculate_bottles(width, length, height)))),
-        "m",
     )
     st.write("Antall meter med rør som trengs: ", str(distance_tubes), "m")
     st.pyplot(fig)
