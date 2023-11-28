@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import openai
 from functions import (
-    general_gpt,
     calculate_nozzles,
     calculate_bottles,
     calculate_placement_bottles,
@@ -12,34 +11,33 @@ import matplotlib.pyplot as plt
 
 st.title("Optimering for HH Fire Eater")
 
-# length = 10
-# width = 8
-
+# Start form for describing the room
 with st.form("dimensions"):
     st.subheader("Dimensjoner i rommet")
-    length = st.number_input("Lengde", value=10)
-    width = st.number_input("Bredde", value=16)
-    height = st.number_input("Høyde", value=3)
+    length = st.number_input("Lengde (m)", value=10)
+    width = st.number_input("Bredde (m)", value=16)
+    height = st.number_input("Høyde (m)", value=3)
 
     submit = st.form_submit_button("Send")
 
+# Plot and print the output of calculations based on the info from the form
 if submit:
-    # Assuming 'calculate' function is defined elsewhere
     (
         nozzle_x_coords,
         nozzle_y_coords_optimized,
         total_nozzles_optimized,
     ) = calculate_nozzles(length, width, 3.66, 7.32)
 
-    # st.write("x-coords", nozzle_x_coords)
-    # st.write("y-coords", nozzle_y_coords_optimized)
-    st.write("Totalt antall dyser: ", total_nozzles_optimized)
-
-    fig, ax = plt.subplots()
-
-    x_coord_bootles, y_coord_bottles, tubes = calculate_placement_bottles(
+    (
+        x_coord_bootles,
+        y_coord_bottles,
+        tubes,
+        distance_tubes,
+    ) = calculate_placement_bottles(
         nozzle_x_coords, nozzle_y_coords_optimized, width, length
     )
+
+    fig, ax = plt.subplots()
     for tube in range(tubes):
         if y_coord_bottles == 0:
             bottle_axis = [x_coord_bootles, x_coord_bootles] + [
@@ -68,7 +66,6 @@ if submit:
             linewidth=2,
         )
 
-    # Ensure that the lengths of both lists are the same
     for y in nozzle_y_coords_optimized:
         ax.plot(
             nozzle_x_coords,
@@ -84,10 +81,12 @@ if submit:
     ax.set_xlabel("Bredde (m)")
     ax.set_ylabel("Lengde (m)")
     ax.legend()
-    ax.grid(True)
 
+    st.write("Totalt antall dyser: ", str(total_nozzles_optimized), "m")
     st.write(
         "Antall flasker som trengs: ",
-        int(np.ceil(calculate_bottles(width, length, height))),
+        str(int(np.ceil(calculate_bottles(width, length, height)))),
+        "m",
     )
+    st.write("Antall meter med rør som trengs: ", str(distance_tubes), "m")
     st.pyplot(fig)

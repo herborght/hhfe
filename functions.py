@@ -32,27 +32,12 @@ def general_gpt(prompt: str):
 def calculate_nozzles(
     length, width, max_distance_from_wall, max_distance_between_nozzles
 ):
-    # Optimizing the placement of nozzles
-
-    # Plotting the optimized floor plan with the nozzles
-    plt.figure(figsize=(8, 5))
-    plt.plot(
-        [0, width, width, 0, 0],
-        [0, 0, length, length, 0],
-        "k-",
-        label="Room boundary",
-    )  # Room boundary
-
     # Calculate the number of nozzles needed along the width and length of the room
     nozzles_along_length = np.ceil(width / max_distance_between_nozzles)
     nozzles_along_width = (
         np.ceil((length - 2 * max_distance_from_wall) / max_distance_between_nozzles)
         + 1
     )
-
-    # Calculate the spacing between nozzles
-    spacing_length = width / nozzles_along_length
-    spacing_width = length / nozzles_along_width
 
     # Generate the coordinates for the nozzles
     nozzle_x_coords = np.linspace(
@@ -78,6 +63,7 @@ def calculate_bottles(width, length, height):
 
 
 def calculate_placement_bottles(nozzles_x, nozzles_y, width, length):
+    # Bottles placement calculated based on the length of the tubes
     highest_x_cord = nozzles_x[-1]
     highest_y_cord = nozzles_y[-1]
 
@@ -95,9 +81,11 @@ def calculate_placement_bottles(nozzles_x, nozzles_y, width, length):
         x_coord = width / 2
         y_coord = 0
         tubes = length_x_cord
+        distance = calc_distance_from_x
     else:
         x_coord = 0
         y_coord = length / 2
         tubes = length_y_cord
+        distance = calc_distance_from_y
 
-    return x_coord, y_coord, tubes
+    return x_coord, y_coord, tubes, distance
