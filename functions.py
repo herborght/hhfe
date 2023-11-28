@@ -54,9 +54,6 @@ def calculate_nozzles(
     spacing_length = width / nozzles_along_length
     spacing_width = length / nozzles_along_width
 
-    print(spacing_width, spacing_length)
-
-    print(nozzles_along_length)
     # Generate the coordinates for the nozzles
     nozzle_x_coords = np.linspace(
         max_distance_from_wall,

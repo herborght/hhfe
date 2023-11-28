@@ -10,17 +10,18 @@ from functions import (
 )
 import matplotlib.pyplot as plt
 
-st.title("Optimizing nozzles")
+st.title("Optimering for HH Fire Eater")
 
 # length = 10
 # width = 8
 
 with st.form("dimensions"):
-    length = st.number_input("length", value=10)
-    width = st.number_input("width", value=16)
-    height = st.number_input("height", value=3)
+    st.subheader("Dimensjoner i rommet")
+    length = st.number_input("Lengde", value=10)
+    width = st.number_input("Bredde", value=16)
+    height = st.number_input("Høyde", value=3)
 
-    submit = st.form_submit_button("Submit")
+    submit = st.form_submit_button("Send")
 
 if submit:
     # Assuming 'calculate' function is defined elsewhere
@@ -32,7 +33,7 @@ if submit:
 
     # st.write("x-coords", nozzle_x_coords)
     # st.write("y-coords", nozzle_y_coords_optimized)
-    st.write("Total Nozzles", total_nozzles_optimized)
+    st.write("Totalt antall dyser: ", total_nozzles_optimized)
 
     fig, ax = plt.subplots()
 
@@ -63,7 +64,7 @@ if submit:
             bottle_axis,
             other_list,
             "g-",
-            label="line " + str(tube + 1),
+            label="Rør " + str(tube + 1),
             linewidth=2,
         )
 
@@ -73,16 +74,20 @@ if submit:
             nozzle_x_coords,
             [y] * len(nozzle_x_coords),
             "ro",
-            label="Optimized Nozzles" if y == nozzle_y_coords_optimized[0] else "",
+            label="Dyser" if y == nozzle_y_coords_optimized[0] else "",
         )
-    ax.plot(x_coord_bootles, y_coord_bottles, "bo")
+    ax.plot(x_coord_bootles, y_coord_bottles, "bo", label="Flasker")
 
     ax.set_xlim(0, width)
     ax.set_ylim(0, length)
-    ax.set_title("Optimized Floor Plan with Nozzle Placement")
-    ax.set_xlabel("Width (m)")
-    ax.set_ylabel("Length (m)")
+    ax.set_title("Optimert plassering av dyser, flasker og rør i et rom")
+    ax.set_xlabel("Bredde (m)")
+    ax.set_ylabel("Lengde (m)")
     ax.legend()
     ax.grid(True)
 
+    st.write(
+        "Antall flasker som trengs: ",
+        int(np.ceil(calculate_bottles(width, length, height))),
+    )
     st.pyplot(fig)
